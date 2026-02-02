@@ -4,13 +4,14 @@ FROM php:8.3-apache
 # Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies
+# Install system dependencies and Postgres dev headers
 RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
     unzip \
     git \
     curl \
+    libpq-dev \
     && docker-php-ext-install pdo_pgsql mbstring zip
 
 # Enable Apache mod_rewrite
