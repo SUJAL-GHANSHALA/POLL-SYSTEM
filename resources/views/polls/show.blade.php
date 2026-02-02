@@ -1,5 +1,16 @@
 <h3>{{ $poll->question }}</h3>
 
+@auth
+    <div style="margin-bottom:10px;">
+        <a 
+            href="/admin/poll/{{ $poll->id }}/ips"
+            style="font-size:12px; color:#555;"
+        >
+            View Voted IPs (Admin)
+        </a>
+    </div>
+@endauth
+
 <form id="voteForm">
     @foreach($options as $option)
         <div>
@@ -15,6 +26,7 @@
 <div id="vote-message" style="margin-top:10px;color:green;"></div>
 
 <hr>
+
 <h4>Live Results</h4>
 <div id="results"></div>
 
@@ -50,8 +62,8 @@ $(document).ready(function() {
         });
     }
 
+    // Initial load & refresh every 1 second
     loadResults();
-
     setInterval(loadResults, 1000);
 });
 </script>

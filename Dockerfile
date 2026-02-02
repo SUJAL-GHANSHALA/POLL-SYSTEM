@@ -31,7 +31,7 @@ COPY . .
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader
 
-# 🔥 Install Node deps & build Vite assets (THIS FIXES YOUR ERROR)
+# 🔥 Install Node deps & build Vite assets
 RUN npm install
 RUN npm run build
 

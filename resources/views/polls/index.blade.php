@@ -5,9 +5,11 @@
 @endif
 
 @foreach($polls as $poll)
-  <a href="#" class="poll-link" data-id="{{ $poll->id }}">
-      {{ $poll->question }}
-  </a><br>
+    <div style="margin-bottom:10px;">
+        <a href="#" class="poll-link" data-id="{{ $poll->id }}">
+            {{ $poll->question }}
+        </a>
+    </div>
 @endforeach
 
 <div id="poll-area" style="margin-top:20px;"></div>

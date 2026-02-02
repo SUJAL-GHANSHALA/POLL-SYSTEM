@@ -1,5 +1,10 @@
 <h3>Voted IPs for Poll #{{ $pollId }}</h3>
 
+<!-- Back to Polls link -->
+<div style="margin-bottom:15px;">
+    <a href="/polls" style="text-decoration:none; color:#007bff;">← Back to Poll Listing</a>
+</div>
+
 @if(session('success'))
     <p style="color:green">{{ session('success') }}</p>
 @endif
@@ -8,7 +13,7 @@
     <p style="color:red">{{ session('error') }}</p>
 @endif
 
-<table border="1" cellpadding="5">
+<table border="1" cellpadding="5" cellspacing="0" style="border-collapse:collapse; width:100%;">
     <tr>
         <th>IP Address</th>
         <th>Option ID</th>
