@@ -11,15 +11,18 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
-    && docker-php-ext-install pdo_mysql mbstring zip
+    && docker-php-ext-install pdo_pgsql mbstring zip
 
 # Enable Apache mod_rewrite
 RUN a2enmod rewrite
 
+# Set Apache DocumentRoot to Laravel public folder
+RUN sed -i 's!/var/www/html!/var/www/html/public!g' /etc/apache2/sites-available/000-default.conf
+
 # Install Composer
 COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 
-# Copy project files to container
+# Copy project files
 COPY . .
 
 # Install PHP dependencies
