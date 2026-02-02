@@ -1,10 +1,9 @@
 # Use PHP 8.3 with Apache
 FROM php:8.3-apache
 
-# Set working directory
 WORKDIR /var/www/html
 
-# Install system dependencies and Postgres dev headers
+# Install system dependencies + Postgres headers
 RUN apt-get update && apt-get install -y \
     libonig-dev \
     libzip-dev \
@@ -14,7 +13,7 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && docker-php-ext-install pdo_pgsql mbstring zip
 
-# Enable Apache mod_rewrite
+# Enable Apache rewrite
 RUN a2enmod rewrite
 
 # Set Apache DocumentRoot to Laravel public folder
@@ -26,11 +25,17 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 # Copy project files
 COPY . .
 
+# Set permissions (VERY IMPORTANT)
+RUN chown -R www-data:www-data storage bootstrap/cache \
+    && chmod -R 775 storage bootstrap/cache
+
 # Install PHP dependencies
 RUN composer install --no-interaction --optimize-autoloader
 
-# Expose Apache port
+# Copy entrypoint
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
 EXPOSE 80
 
-# Start Apache
-CMD ["apache2-foreground"]
+ENTRYPOINT ["docker-entrypoint.sh"]
